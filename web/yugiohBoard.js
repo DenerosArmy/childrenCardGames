@@ -4,10 +4,15 @@ var container, scene, camera, renderer, controls, stats;
 var keyboard = new THREEx.KeyboardState();
 var positions = [] 
 var cards  = []
+var board = {}
+var field = [] 
+var monsters = {} 
+var monster_spawn_states = {"obelisk":[[1.57,0,0],[0,200,0],[200,200,200]],"wingeddragon":[[1.57,0,0],[0,250,100],[13,13,13]] }
 for (i=0; i<14; i++) { 
     hz = 600 - 200*(i%7)
     vt = 50 - 650*Math.floor(i/7)  
     positions[i] = [hz,2.5,vt]
+    board[i] = [null,null]
 
 }
 // custom global variables
@@ -27,18 +32,6 @@ faceDownArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadText
 faceDownArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern.jpg' ) }));
 
 var faceDowncardMaterial = new THREE.MeshFaceMaterial(faceDownArray);
-
-
-var cardUpDimensions = new THREE.CubeGeometry( 150, 320, 5);
-var faceUpArray = [];
-faceUpArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern.jpg' ) }));
-faceUpArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern.jpg' ) }));
-faceUpArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern.jpg' ) }));
-faceUpArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern.jpg' ) }));
-faceUpArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'images/back.png' ) }));
-faceUpArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'images/back.png' ) }));
-
-var faceUpcardMaterial = new THREE.MeshFaceMaterial(faceUpArray);
 
 // FUNCTIONS        
 function init() 
@@ -79,6 +72,10 @@ function init()
     var light = new THREE.PointLight(0xffffff);
     light.position.set(0,250,0);
     scene.add(light);
+    var light2 = new THREE.PointLight(0xffffff);
+    light2.position.set(0,250,800);
+    scene.add(light2);
+
     // FLOOR
     var floorTexture = new THREE.ImageUtils.loadTexture( 'custom/yugioh1.jpg' );
     floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping; 
@@ -227,30 +224,87 @@ renderer.render( scene, camera );
 }
 
 function play_card(position,name,state) { 
+    rendered = false
+    if (board[position][1] == "att" ) {
+        rendered = true  
+    }
+    board[position] = [name,state]
+
+
     if (state == "down"){ 
         var cubeMaterial = new THREE.MeshFaceMaterial(faceDownArray);
-        card = new THREE.Mesh( cardDimensions, faceDowncardMaterial );
+        var card = new THREE.Mesh( cardDimensions, faceDowncardMaterial );
         card.position.set(positions[position][0],positions[position][1],positions[position][2])
         cards[position] = card
+    
         scene.add(card) 
 
     }
 
     else {
-        faceUpArray[4] = new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/'+name) });
+
+var cardUpDimensions = new THREE.CubeGeometry( 150, 320, 5);
+var faceUpArray = [];
+faceUpArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern.jpg' ) }));
+faceUpArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern.jpg' ) }));
+faceUpArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern.jpg' ) }));
+faceUpArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern.jpg' ) }));
+faceUpArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'images/back.png' ) }));
+faceUpArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'images/back.png' ) }));
+
+var faceUpcardMaterial = new THREE.MeshFaceMaterial(faceUpArray);
+
+
+        faceUpArray[4] = new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/'+name+".png") });
         var cubeMaterial = new THREE.MeshFaceMaterial(faceUpArray);
-        card = new THREE.Mesh( cardUpDimensions, faceUpcardMaterial);
+        var card = new THREE.Mesh( cardUpDimensions, faceUpcardMaterial);
         card.position.set(positions[position][0],positions[position][1]+160,positions[position][2]+5)
         cards[position] = card
         scene.add(card) 
+        if (!rendered) {
+            render_monster(position) 
+        }
+              
     }
 
 
 }
-//var ws = new WebSocket("ws://pythonscript.denerosarmy.com:8000/ws");
-//ws.onopen = function() {
-//    ws.send("Hello, world");
-//};
-//ws.onmessage = function (evt) {
-//    test();
-//};
+function render_monster(position) { 
+    var loader = new THREE.OBJMTLLoader()
+    var name = board[position][0]
+    loader.addEventListener( 'load', function ( event ) {
+					var object = event.content;
+                    object.scale.set(200,200,200) 
+					object.position.set(positions[position][0],positions[position][1],positions[position][2]);
+					scene.add( object );
+                    monsters[name] = object
+                    rotation = monster_spawn_states[name][0]
+                    position = monster_spawn_states[name][1]
+                    axis = ['x','y','z']
+                    for (i=0;i<3;i++){
+                        object.rotation[axis[i]] = rotation[i] 
+                        object.position[axis[i]] += position[i]
+                    }
+	});
+    loader.load( 'monsters/'+ name + '.obj', 'monsters/' + name + '.mtl' );
+
+
+}
+var ws = new WebSocket("ws://pythonscript.denerosarmy.com:8000/ws");
+ws.onopen = function() {
+    ws.send("Hello, world");
+};
+ws.onmessage = function (evt) {
+    obj = JSON.parse(evt.data)
+    console.log("message received")
+    console.log(JSON.stringify(obj))
+    for (i=0;i<14;i++){ 
+        if (board[i][0] == null || (obj[i] != null && obj[i] != board[i][1]))
+        {
+            if (obj[i] != null) {
+                play_card(i,obj[i]["name"],obj[i]["state"]) 
+            }
+        }
+    }
+
+};
