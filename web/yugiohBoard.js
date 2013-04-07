@@ -193,6 +193,8 @@ function update()
         video.pause();
     if ( keyboard.pressed("r") ) // resume
         video.play();
+        document.getElementsByTagName("video")[0].src = document.getElementsByTagName("video")[1].src;
+
     controls.update();
     stats.update();
 }
