@@ -2,7 +2,14 @@
 // standard global variables
 var container, scene, camera, renderer, controls, stats;
 var keyboard = new THREEx.KeyboardState();
+var positions = [] 
+var cards  = []
+for (i=0; i<14; i++) { 
+    hz = 600 - 200*(i%7)
+    vt = 50 - 650*Math.floor(i/7)  
+    positions[i] = [hz,2.5,vt]
 
+}
 // custom global variables
 var video, videoImage, videoImageContext, videoTexture;
 
@@ -145,65 +152,12 @@ function init()
     materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern.jpg' ) }));
     materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern.jpg' ) }));
     materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern.jpg' ) }));
-    var DiceBlueMaterial = new THREE.MeshFaceMaterial(materialArray);
     //	new THREE.MeshBasicMaterial({ color: 0x000088 });
 
-    var cubeMaterial = new THREE.MeshFaceMaterial(materialArray);
-
-    cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
-    //y should be 1/2 of height
+        //y should be 1/2 of height
 
     //center back head is 0,3.5,-600. 
     //the midpoint is always 250 z units back. 
-    cube.position.set(0,2.5,-600);scene.add(cube);
-
-    cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
-
-    //to move left on grid + 200
-    cube.position.set(200,2.5,-600);scene.add(cube);
-
-    //	cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
-
-    //	cube.position.set(400,3.5,-600);scene.add(cube);
-
-    cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
-
-    //to move right on grid - 200
-    cube.position.set(-200,2.5,-600);scene.add(cube);
-
-    cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
-
-    cube.position.set(-400,2.5,-600);scene.add(cube);
-
-    cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
-
-    //to move up one row, up 650. 
-    cube.position.set(0,2.5,50);	scene.add(cube);
-
-    cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
-
-    cube.position.set(-200,2.5,50);	scene.add(cube);
-
-    cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
-
-    cube.position.set(-400,2.5,50);	scene.add(cube);
-
-    cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
-
-    cube.position.set(200,2.5,50);	scene.add(cube);
-
-    cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
-
-    cube.position.set(400,2.5,50);	scene.add(cube);
-
-    cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
-
-    cube.position.set(600,2.5,50);	scene.add(cube);
-
-
-    cube = new THREE.Mesh( cubeGeometry, cubeMaterial ); 
-
-    cube.position.set(-600,2.5,50);	scene.add(cube);
 
     //Deck
     //cards with 
@@ -262,7 +216,18 @@ function render()
 renderer.render( scene, camera );
 }
 
+function play_card(position,name,state) { 
+    if (state == "down"){ 
+        var cubeMaterial = new THREE.MeshFaceMaterial(faceDownArray);
+        card = new THREE.Mesh( cardDimensions, faceDowncardMaterial );
+        card.position.set(positions[position][0],positions[position][1],positions[position][2])
+        cards[position] = card
+        scene.add(card) 
 
+    }
+
+
+}
 var ws = new WebSocket("ws://pythonscript.denerosarmy.com:8000/ws");
 ws.onopen = function() {
     ws.send("Hello, world");

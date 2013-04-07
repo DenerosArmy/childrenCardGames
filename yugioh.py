@@ -1,10 +1,12 @@
 import json 
 D = True
 class Card(object):
-    def __init__(self,rfid_id, card_name,card_type):
+    def __init__(self,rfid_id, card_name,card_type,attack=0,defense=0):
         self.rfid = rfid_id
         self.name = card_name 
         self.card_type = card_type 
+        self.attack = attack 
+        self.defense = defense
         self.position = None 
         self.state = "deck" 
     def serialize(self):
@@ -17,12 +19,14 @@ class Game(object):
     def __init__(self,cards,function=str):
         self.cards = {} 
         self.field = [None for _ in range(14)]
+        self.op_field = [None for _ in range(14)]
         self.in_hand = None
         self.function = function
+         
     def pick_up(self,id): 
         if D:
             print "Picked up " + self.cards[id] 
-    
+     
     def place(self,location,postion):
         if self.in_hand:
             if D:
@@ -30,4 +34,4 @@ class Game(object):
             self.field[position] = self.in_hand
         self.function(map(Card.serialize,self.field))
 
- 
+     
