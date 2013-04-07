@@ -206,12 +206,10 @@ function test () {
 }
 function render() 
 {	
-    if ( video.readyState === video.HAVE_ENOUGH_DATA ) 
-    {
-        videoImageContext.drawImage( video, 0, 0, videoImage.width, videoImage.height );
-        if ( videoTexture ) 
-            videoTexture.needsUpdate = true;
-    }
+videoImageContext.drawImage( video, 0, 0, videoImage.width, videoImage.height );
+if ( videoTexture ) {
+	videoTexture.needsUpdate = true;
+}
 
 renderer.render( scene, camera );
 }
@@ -228,13 +226,10 @@ function play_card(position,name,state) {
 
 
 }
-var ws = new WebSocket("ws://pythonscript.denerosarmy.com:8000/ws");
-ws.onopen = function() {
-    ws.send("Hello, world");
-};
-ws.onmessage = function (evt) {
-    test();
-};
-
-
-
+//var ws = new WebSocket("ws://pythonscript.denerosarmy.com:8000/ws");
+//ws.onopen = function() {
+//    ws.send("Hello, world");
+//};
+//ws.onmessage = function (evt) {
+//    test();
+//};
