@@ -1,7 +1,6 @@
 
 <!doctype html>
 <html lang="en">
-
 <head>
 	<title>three.js tutorial</title>
 	<meta charset="utf-8">
@@ -30,35 +29,41 @@
 
 </div>
 
-         <script type="text/javascript">
+        <script type="text/javascript">
             // Initialize API key, session, and token...
             // Think of a session as a room, and a token as the key to get in to the room
             // Sessions and tokens are generated on your server and passed down to the client
             var apiKey = "25473722";
-            var sessionId = "1_MX4yNTQ3MzcyMn4xMjcuMC4wLjF-U3VuIEFwciAwNyAwNjowNjoyOSBQRFQgMjAxM34wLjMyODQ1OTkyfg";
+            var sessionId = "1_MX4yNTQ3MzcyMn4xMjcuMC4wLjF-U3VuIEFwciAwNyAwMDowOTo0NiBQRFQgMjAxM34wLjgxOTk1NTN-";
             var token = "T1==cGFydG5lcl9pZD0yNTQ3MzcyMiZzZGtfdmVyc2lvbj10YnJ1YnktdGJyYi12MC45MS4yMDExLTAyLTE3JnNpZz1iNjhjMWVkMzk2Y2FmNmYxZTc1YTRjMmM0Y2IwMDYzZGI3ZTExZTIzOnJvbGU9cHVibGlzaGVyJnNlc3Npb25faWQ9JmNyZWF0ZV90aW1lPTEzNjUzMTg1ODYmbm9uY2U9MC4zNTg3MTkyMTgxNjg2Njk4JmV4cGlyZV90aW1lPTEzNjU0MDQ5OTcmY29ubmVjdGlvbl9kYXRhPQ=="; 
             // Initialize session, set up event listeners, and connect
             var session = TB.initSession(sessionId);
-            session.addEventListener('sessionConnected', sessionConnectedHandler);
-            session.addEventListener("streamCreated", streamCreatedHandler);
-            
             session.connect(apiKey, token);
-//If you wanted to publish in a custom div, api, 'yourdiv'
-            function sessionConnectedHandler (event) {
-                subscribeToStreams(event.streams)
-            }
+            alert("session conncted");
+	session.addEventListener("sessionConnected", sessionConnectedHandler);
+	session.addEventListener("streamCreated", streamCreatedHandler);
 
-            function subscribeToStreams(streams) {
-                for (i = 0; i < streams.length; i++) {
-                    var stream = streams[i];
-                        session.subscribe(stream,'mySubscriberDiv');
-                        document.getElementsByTagName("video")[0].src = document.getElementsByTagName("video")[1].src;
+            
+		function sessionConnectedHandler (event) {
+		     subscribeToStreams(event.streams);
+		     session.publish();
+		}
 
-                }
-            }
+		function subscribeToStreams(streams) {
+		    for (i = 0; i < streams.length; i++) {
+		        var stream = streams[i];
+		        if (stream.connection.connectionId != session.connection.connectionId) {
+		        	alert('found a stream to subscribe to')
+		            session.subscribe(stream,"mySubscriberDiv");
+		        }
+		    }
+}
             function streamCreatedHandler(event) {
-                subscribeToStreams(event.streams);
+            	//We are connected. Do the TokBox / Main Canvas Swap. 
+            	alert('connected');
+                //subscribeToStreams(event.streams);
             }
+
             
             </script>
 
