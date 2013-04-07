@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<title>Web Speech API Demo</title>
+<title>Background Worker</title>
 <style>
   * {
     font-family: Verdana, Arial, sans-serif;
@@ -82,13 +82,8 @@
 </style>
 <h1 class="center" id="headline">
   <a href="http://dvcs.w3.org/hg/speech-api/raw-file/tip/speechapi.html">
-    Web Speech API</a> Demonstration</h1>
 <div id="info">
-  <p id="info_start">Click on the microphone icon and begin speaking.</p>
-  <p id="info_speak_now">Speak now.</p>
-  <p id="info_no_speech">No speech was detected. You may need to adjust your
-    <a href="//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">
-      microphone settings</a>.</p>
+  
   <p id="info_no_microphone" style="display:none">
     No microphone was found. Ensure that a microphone is installed and that
     <a href="//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">
@@ -289,8 +284,9 @@ if (!('webkitSpeechRecognition' in window)) {
         interim_transcript += event.results[i][0].transcript;
       }
     }
-		if (final_transcript.search("direct") != -1 && final_transcript.search("attack") != -1) {
+		if (final_transcript.search("attack") != -1) {
 			console.log("attacked life points directly");
+			window.location = "http://pythonscript.richiezeng.com/attack";
 			final_transcript = '';
 		}
     final_transcript = capitalize(final_transcript);
