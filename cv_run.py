@@ -116,7 +116,7 @@ def main():
     disp.quit()
 
 if __name__ == '__main__':
-    c = SimpleCV.TreeClassifier.load("classifier-6-44")
+    c = SimpleCV.TreeClassifier.load("classifier-7-17")
     # TODO: camera start is buggy because the index changes
     cam = Camera(2)
 
