@@ -8,16 +8,19 @@ class Card(object):
         self.attack = attack 
         self.defense = defense
         self.position = None 
+	
         self.state = "deck" 
-    def serialize(self):
-        if not self:
-            return
-        return ({"name":self.name,"state":self.state})
+    def __str__(self):
+	return str(serialize(self))
+def serialize(card):
+    if not card:
+       return
+    return ({"name":card.name,"state":card.state})
 
     
 class Game(object):
     def __init__(self,cards,function=str):
-        self.cards = {} 
+        self.cards = cards
         self.field = [None for _ in range(14)]
         self.op_field = [None for _ in range(14)]
         self.in_hand = None
@@ -25,13 +28,27 @@ class Game(object):
          
     def pick_up(self,id): 
         if D:
-            print "Picked up " + self.cards[id] 
+            print "Picked up " + str(self.cards.get(id))
+	print self.cards 
+	self.in_hand = self.cards.get(id) 
+	 
      
-    def place(self,location,postion):
-        if self.in_hand:
+    def place(self,location,state):
+        if self.in_hand and int(location) < 13:
+	    valid = False
+	    if self.in_hand.card_type == 0: 
+		valid = location in [i for i in range(1,7)] 
+	    else:
+		valid = location in [i for i in range(9,13)] 
+            if not valid:
+		return False
             if D:
-                print "Placing card to " + str(location) 
-            self.field[position] = self.in_hand
-        self.function(map(Card.serialize,self.field))
+                print "Placing card " + str(self.in_hand) + " to  "+ str(location) 
+	    
+            print self.field	
 
-     
+            self.field[location] = self.in_hand	
+            self.in_hand.state = state
+	    self.in_hand = None
+	    return True
+    	return False 

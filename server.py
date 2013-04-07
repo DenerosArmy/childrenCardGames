@@ -23,19 +23,24 @@ class WSHandler(tornado.websocket.WebSocketHandler):
     
 class RfidHandler(tornado.web.RequestHandler):
   def post(self):
-      print map(str,self.get_arguments("rfid"))
+      rfid = self.get_arguments("rfid")
+
+      if rfid:
+	tag = rfid[0]
+      print tag
+      game.pick_up(tag)
       if op:
 	print op 
 	print "DOPP"
 
 class CVHandler(tornado.web.RequestHandler):
   def post(self):
-      position = self.get_argument("position")
+      position = int(self.get_argument("position"))
       old = self.get_argument("old")
       new = self.get_argument("new")
-      if game.place(position,new):
+      if game and game.place(position,new):
         print "SENDING MESSAGE"
-        op.write_message(json.dumps(game.field))
+        op.write_message(json.dumps(map(yugioh.serialize,game.field)))
       print "Detected class change at {} from '{}' to {}'".format(position, old, new)
 
 application = tornado.web.Application([
