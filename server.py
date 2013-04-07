@@ -33,8 +33,9 @@ class CVHandler(tornado.web.RequestHandler):
       position = self.get_argument("position")
       old = self.get_argument("old")
       new = self.get_argument("new")
-      game.place(position,new) 
-      op.write_message(json.dumps(game.field))
+      if game.place(position,new):
+        print "SENDING MESSAGE"
+        op.write_message(json.dumps(game.field))
       print "Detected class change at {} from '{}' to {}'".format(position, old, new)
 
 application = tornado.web.Application([
@@ -48,8 +49,8 @@ if __name__ == "__main__":
     card1 = yugioh.Card("67007264C9B8", "Blue Eyes White Dragon", 0)
     card2 = yugioh.Card("67007262ED9A", "Mirror Force", 2)   
     card3 = yugioh.Card("67007274CDAC","Exodia",0) 	
-    cards = {eval("card"+str(i)).rfid:eval("card"+str(i)) for i in range(4)}
-		
+    cards = {eval("card"+str(i)).rfid:eval("card"+str(i)) for i in range(4)}	
+
     http_server = tornado.httpserver.HTTPServer(application) 
     http_server.listen(8000)
     tornado.ioloop.IOLoop.instance().start() 
