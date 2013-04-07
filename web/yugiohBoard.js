@@ -295,6 +295,9 @@ ws.onopen = function() {
     ws.send("Hello, world");
 };
 ws.onmessage = function (evt) {
+    if evt.data == "ATTACK":
+        attack() 
+
     obj = JSON.parse(evt.data)
     console.log("message received")
     console.log(JSON.stringify(obj))

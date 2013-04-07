@@ -33,6 +33,10 @@ class RfidHandler(tornado.web.RequestHandler):
         if op:
             print op 
             print "DOPP"
+class AttackHandler(tornado.web.RequestHandler):
+    def get(self):
+        op.write_message("ATTACK")
+
 
 class CVHandler(tornado.web.RequestHandler):
   def post(self):
@@ -61,6 +65,7 @@ class CVHandler(tornado.web.RequestHandler):
 
 application = tornado.web.Application([
     (r'/ws', WSHandler),
+    (r'/attack', AttackHandler),
     (r'/cv', CVHandler),
     (r'/', RfidHandler),
 ])
