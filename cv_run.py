@@ -23,10 +23,10 @@ def get_grid(img):
     left = (centroids[0][0] + centroids[1][0]) / 2
     right = (centroids[2][0] + centroids[3][0]) / 2
     centroids.sort(key=lambda pt: pt[1])
-    top = (centroids[0][1] + centroids[1][1]) / 2
-    bottom = (centroids[2][1] + centroids[3][1]) / 2
+    bottom = (centroids[0][1] + centroids[1][1]) / 2
+    top = (centroids[2][1] + centroids[3][1]) / 2
     
-    coords = np.array(range(6+1)) / 6.0 * (right - left) + left
+    coords = np.array(range(6,-1,-1)) / 6.0 * (right - left) + left
     top_row = [[0, 0] for _ in range(6+1)]
     bottom_row = [[0, 0] for _ in range(6+1)]
     for i in range(6+1):
