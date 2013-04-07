@@ -23,25 +23,26 @@ def main(tag):
     top_row = []
     bottom_row = []
     blobs = []
-    get_image = True
+    img = None
     while disp.isNotDone():
-        if get_image or disp.mouseRight:
+        if disp.mouseRight:
             img = cam.getImage().scale(640, 360)
-            get_image = False
-        elif disp.mouseMiddle:
+        elif disp.mouseMiddle and img is not None:
             try:
                 top_row, bottom_row, blobs = get_grid(img)
             except IndexError:
                 img.dl().rectangle([0, 0], [640, 360], color=Color.RED, filled=True, alpha=150)
-        elif disp.mouseLeft:
+        elif disp.mouseLeft and img is not None:
             images = split_image(img, top_row, bottom_row)
             save_training(images, tag)
-            img.dl().rectangle([0, 0], [640, 360], color=Color.BLACK, filled=True)
-            get_image = True
+            img.dl().rectangle([0, 0], [640, 360], color=Color.BLACK, filled=True, alpha=200)
+            img.save(disp)
+            img = None
 
-        shade_cards(img, top_row, bottom_row, 90)
-        img.save(disp)
-        img.clearLayers()
+        if img is not None:
+            shade_cards(img, top_row, bottom_row, 90)
+            img.save(disp)
+            img.clearLayers()
     disp.quit()
 
 if __name__ == '__main__':
