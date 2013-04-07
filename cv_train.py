@@ -2,13 +2,13 @@ from SimpleCV import *
 from cv_run import shade_cards, get_grid, split_image
 from cv_collect import base_path
 
-tags = ["up", "down", "none"]
+tags = ["att", "down", "none"]
 
 def train(tags):
     e = EdgeHistogramFeatureExtractor()
     hue = HueHistogramFeatureExtractor()
     morph = MorphologyFeatureExtractor()
-    features = [e, hue, morph]
+    features = [e, hue]
     c = MachineLearning.TreeClassifier(features)
     c.train([os.path.join(base_path, tag) for tag in tags], tags)
     return c
