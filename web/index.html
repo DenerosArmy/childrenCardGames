@@ -198,13 +198,73 @@ function init()
 	});
 */
 	// torus knot
-	var cubeGeometry = new THREE.CubeGeometry( 150, 40, 500 );
+	//(150,height,480)
+	var cubeGeometry = new THREE.CubeGeometry( 150, 20, 480 );
 	var cubeMaterial = new THREE.MeshBasicMaterial({ color: 0x000088 });
 	cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
-	//150
-	//center back is 0,20,-585. 
+		//y should be 1/2 of height
 
-	cube.position.set(0,20,-600);
+	//center back head is 0,10,-600. 
+	//the midpoint is always 250 z units back. 
+	cube.position.set(0,10,-600);scene.add(cube);
+
+	cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
+
+	//to move left on grid + 200
+    cube.position.set(200,10,-600);scene.add(cube);
+
+	cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
+
+	cube.position.set(400,10,-600);scene.add(cube);
+
+	cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
+
+	//to move right on grid - 200
+	cube.position.set(-200,10,-600);scene.add(cube);
+
+	cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
+
+	cube.position.set(-400,10,-600);scene.add(cube);
+
+	cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
+
+
+	//to move up one row, up 650. 
+	cube.position.set(0,10,50);	scene.add(cube);
+
+		cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
+
+		cube.position.set(-200,10,50);	scene.add(cube);
+		
+			cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
+
+				cube.position.set(-400,10,50);	scene.add(cube);
+
+					cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
+
+				cube.position.set(200,10,50);	scene.add(cube);
+
+			cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
+
+		cube.position.set(400,10,50);	scene.add(cube);
+
+		cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
+
+			cube.position.set(600,10,50);	scene.add(cube);
+
+		cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
+
+			cube.position.set(-600,10,50);	scene.add(cube);
+
+
+
+
+
+
+
+
+
+
 	scene.add(cube);
 	
 
