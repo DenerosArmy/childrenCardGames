@@ -28,7 +28,19 @@ faceDownArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadText
 
 var faceDowncardMaterial = new THREE.MeshFaceMaterial(faceDownArray);
 
-// FUNCTIONS 		
+
+var cardUpDimensions = new THREE.CubeGeometry( 150, 320, 5);
+var faceUpArray = [];
+faceUpArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern.jpg' ) }));
+faceUpArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern.jpg' ) }));
+faceUpArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern.jpg' ) }));
+faceUpArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern.jpg' ) }));
+faceUpArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'images/back.png' ) }));
+faceUpArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'images/back.png' ) }));
+
+var faceUpcardMaterial = new THREE.MeshFaceMaterial(faceUpArray);
+
+// FUNCTIONS        
 function init() 
 {
     // SCENE
@@ -40,7 +52,7 @@ function init()
     scene.add(camera);
 
     camera.position.set(0,400,1400);
-    camera.lookAt(scene.position);	
+    camera.lookAt(scene.position);  
     // RENDERER
     if ( Detector.webgl )
         renderer = new THREE.WebGLRenderer( {antialias:true} );
@@ -95,7 +107,7 @@ function init()
     var skyboxGeom = new THREE.CubeGeometry( 5000, 5000, 5000, 1, 1, 1 );
 
     var skybox = new THREE.Mesh( skyboxGeom, skyboxMaterial );
-    scene.add( skybox );	
+    scene.add( skybox );    
 
     // a little bit of scenery...
     var ambientlight = new THREE.AmbientLight(0x111111);
@@ -118,7 +130,7 @@ function init()
 
     var movieMaterial = new THREE.MeshBasicMaterial( { map: videoTexture, overdraw: true, side:THREE.DoubleSide } );
     // the geometry on which the movie will be displayed;
-    // 		movie image will be scaled to fit these dimensions.
+    //      movie image will be scaled to fit these dimensions.
     var movieGeometry = new THREE.PlaneGeometry( 760, 650, 1, 1 );
     var movieScreen = new THREE.Mesh( movieGeometry, movieMaterial );
     movieScreen.position.set(0,300,-1000);
@@ -152,7 +164,7 @@ function init()
     materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern.jpg' ) }));
     materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern.jpg' ) }));
     materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern.jpg' ) }));
-    //	new THREE.MeshBasicMaterial({ color: 0x000088 });
+    //  new THREE.MeshBasicMaterial({ color: 0x000088 });
 
         //y should be 1/2 of height
 
@@ -169,7 +181,7 @@ function init()
     deckArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern_deck.jpg' ) }));
     deckArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern_deck.jpg' ) }));
     deckArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern_deck.jpg' ) }));
-    //	new THREE.MeshBasicMaterial({ color: 0x000088 });
+    //  new THREE.MeshBasicMaterial({ color: 0x000088 });
     var deckMaterial = new THREE.MeshFaceMaterial(deckArray);
     var deckGeometry = new THREE.CubeGeometry( 150, 50, 480 );
 
@@ -183,12 +195,12 @@ function init()
 function animate() 
 {
     requestAnimationFrame( animate );
-    render();		
+    render();       
     update();
 }
 
 function update()
-{		
+{       
     if ( keyboard.pressed("p") ) // pause
         video.pause();
     if ( keyboard.pressed("r") ) // resume
@@ -205,13 +217,11 @@ function test () {
 
 }
 function render() 
-{	
-    if ( video.readyState === video.HAVE_ENOUGH_DATA ) 
-    {
-        videoImageContext.drawImage( video, 0, 0, videoImage.width, videoImage.height );
-        if ( videoTexture ) 
-            videoTexture.needsUpdate = true;
-    }
+{   
+videoImageContext.drawImage( video, 0, 0, videoImage.width, videoImage.height );
+if ( videoTexture ) {
+    videoTexture.needsUpdate = true;
+}
 
 renderer.render( scene, camera );
 }
@@ -226,15 +236,21 @@ function play_card(position,name,state) {
 
     }
 
+    else {
+        faceUpArray[4] = new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/'+name) });
+        var cubeMaterial = new THREE.MeshFaceMaterial(faceUpArray);
+        card = new THREE.Mesh( cardUpDimensions, faceUpcardMaterial);
+        card.position.set(positions[position][0],positions[position][1]+160,positions[position][2]+5)
+        cards[position] = card
+        scene.add(card) 
+    }
+
 
 }
-var ws = new WebSocket("ws://pythonscript.denerosarmy.com:8000/ws");
-ws.onopen = function() {
-    ws.send("Hello, world");
-};
-ws.onmessage = function (evt) {
-    test();
-};
-
-
-
+//var ws = new WebSocket("ws://pythonscript.denerosarmy.com:8000/ws");
+//ws.onopen = function() {
+//    ws.send("Hello, world");
+//};
+//ws.onmessage = function (evt) {
+//    test();
+//};
