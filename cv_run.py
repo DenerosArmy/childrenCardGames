@@ -13,11 +13,11 @@ def shade_cards(img, top_row, bottom_row, radius=50):
 def get_grid(img):
     _, cr, _ = img.toYCrCb().splitChannels()
     blobs = cr.binarize(150).dilate(12).invert().findBlobs()
+    if blobs is None or len(blobs) != 4:
+        raise IndexError, "wrong number of blobs"
     for blob in blobs:
         x, y = blob.centroid()
         img.dl().circle((int(x), int(y)), 15, color=Color.WHITE, width=3)
-    if len(blobs) != 4:
-        raise IndexError, "wrong number of blobs"
     centroids = [blob.centroid() for blob in blobs]
     centroids.sort()
     left = (centroids[0][0] + centroids[1][0]) / 2
