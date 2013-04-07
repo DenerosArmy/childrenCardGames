@@ -17,6 +17,15 @@
 		}
 	</style>
 	<script src='https://swww.tokbox.com/webrtc/v2.0/js/TB.min.js'></script>
+                <script src="js/Three.js"></script>
+                <script src="js/Detector.js"></script>
+                <script src="js/Stats.js"></script>
+                <script src="js/ColladaLoader.js"></script>
+                <script src="js/TrackballControls.js"></script>
+                <script src="js/THREEx.KeyboardState.js"></script>
+                <script src="js/THREEx.FullScreen.js"></script>
+                <script src="js/THREEx.WindowResize.js"></script>
+
 
 </head>
 <body>
@@ -59,33 +68,7 @@
             function streamCreatedHandler(event) {
                 subscribeToStreams(event.streams);
             }
-            
-=======
-    <head>
-        <title>Yugioh</title>
-        <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-                <style>
-                    body 
-                    {
-                        font-family: Monospace;
-                        font-weight: bold;
-                        background-color: #ccccff;
-                        margin: 5px;
-                        overflow: hidden;
-                    }
-                </style>
-                <script src="js/Three.js"></script>
-                <script src="js/Detector.js"></script>
-                <script src="js/Stats.js"></script>
-                <script src="js/ColladaLoader.js"></script>
-                <script src="js/TrackballControls.js"></script>
-                <script src="js/THREEx.KeyboardState.js"></script>
-                <script src="js/THREEx.FullScreen.js"></script>
-                <script src="js/THREEx.WindowResize.js"></script>
-
-
-            </head>
+        </script>
             <body>
 
                 <p id="errorMessage"></p>
