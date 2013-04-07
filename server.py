@@ -19,9 +19,16 @@ class RfidHandler(tornado.web.RequestHandler):
   def post(self):
       print map(str,self.get_arguments("rfid"))
 
+class CVHandler(tornado.web.RequestHandler):
+  def post(self):
+      position = self.get_argument("position")
+      old = self.get_argument("old")
+      new = self.get_argument("new")
+      print "Detected class change at {} from '{}' to {}'".format(position, old, new)
 
 application = tornado.web.Application([
     (r'/ws', WSHandler),
+    (r'/cv', CVHandler),
     (r'/', RfidHandler),
 ])
 

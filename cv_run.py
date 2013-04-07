@@ -1,4 +1,8 @@
 from SimpleCV import *
+import requests
+
+post_url = "http://pythonscript.denerosarmy.com:8000/cv"
+
 
 def shade_cards(img, top_row, bottom_row, radius=50):
     for i, pt in enumerate(top_row):
@@ -48,6 +52,15 @@ def classify_split(c, images):
 
 def notify_class_changed(x, y, old, new):
     print "Detected class change at ({}, {}) from '{}' to '{}'".format(x, y, old, new)
+    d = {
+            "position": y + x * 7,
+            "old": old,
+            "new": new
+        }
+    try:
+        requests.post(post_url, d)
+    except requests.RequestException as e:
+        print "Caught exception", e
 
 def main():
     disp = Display((640, 360), title="Run")
