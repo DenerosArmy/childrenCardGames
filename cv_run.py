@@ -46,6 +46,9 @@ def classify_split(c, images):
         for y, img in enumerate(rows):
             classes[x][y] = c
 
+def notify_class_changed(x, y, old, new):
+    print "Detected class change at ({}, {}) from '{}' to '{}'".format(x, y, old, new)
+
 def main():
     disp = Display((640, 360), title="Run")
     top_row = []
@@ -53,7 +56,7 @@ def main():
     blobs = []
     img_prev = cam.getImage().scale(640, 360)
     x, y = 0, 0
-    classes = [["" for _ in range(7)] for _ in range(2)]
+    classes = [["none" for _ in range(7)] for _ in range(2)]
     timer = 0
     while disp.isNotDone():
         img = cam.getImage().scale(640, 360)
@@ -80,17 +83,18 @@ def main():
                     row = bottom_row
                 pt = row[y]
                 cropped = img.crop(pt[0], pt[1], 90, 90, centered=True)
-                classes[x][y] = c.classify(cropped)
+                new = c.classify(cropped)
+                if classes[x][y] != new:
+                    notify_class_changed(x, y, classes[x][y], new)
+                    classes[x][y] = new
                 y = (y + 1) % 7
                 if y == 0:
                     x = (x + 1) % 2
 
         for i, pt in enumerate(top_row):
-            if classes[0][i] != "":
-                img.dl().text(classes[0][i], pt, color=(178,75,255))
+            img.dl().text(classes[0][i], pt, color=(178,75,255))
         for i, pt in enumerate(bottom_row):
-            if classes[1][i] != "":
-                img.dl().text(classes[1][i], pt, color=(178,75,255))
+            img.dl().text(classes[1][i], pt, color=(178,75,255))
         timer = max(timer - 1, 0)
         shade_cards(img, top_row, bottom_row, 90)
         img.save(disp)
