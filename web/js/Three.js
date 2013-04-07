@@ -9396,6 +9396,7 @@ THREE.Loader.prototype = {
 			} else {
 
 				var texture = document.createElement( 'canvas' );
+                texture.setAttribute("id", "canvas");
 
 				where[ name ] = new THREE.Texture( texture );
 
