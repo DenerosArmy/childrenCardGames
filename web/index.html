@@ -145,6 +145,8 @@ function init()
 	materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'images/dawnmountain-yneg.png' ) }));
 	materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'images/dawnmountain-zpos.png' ) }));
 	materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'images/dawnmountain-zneg.png' ) }));
+
+
 	for (var i = 0; i < 6; i++)
 	   materialArray[i].side = THREE.BackSide;
 	var skyboxMaterial = new THREE.MeshFaceMaterial( materialArray );
@@ -199,74 +201,95 @@ function init()
 */
 	// torus knot
 	//(150,height,480)
-	var cubeGeometry = new THREE.CubeGeometry( 150, 20, 480 );
-	var cubeMaterial = new THREE.MeshBasicMaterial({ color: 0x000088 });
+	//card height 
+	var cubeGeometry = new THREE.CubeGeometry( 150, 5, 480 );
+	var materialArray = [];
+	//cards with 
+		materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern.jpg' ) }));
+	materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern.jpg' ) }));
+	materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'images/back.png' ) }));
+	materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern.jpg' ) }));
+	materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern.jpg' ) }));
+	materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern.jpg' ) }));
+	var DiceBlueMaterial = new THREE.MeshFaceMaterial(materialArray);
+	//	new THREE.MeshBasicMaterial({ color: 0x000088 });
+
+	var cubeMaterial = new THREE.MeshFaceMaterial(materialArray);
+
 	cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
 		//y should be 1/2 of height
 
-	//center back head is 0,10,-600. 
+	//center back head is 0,3.5,-600. 
 	//the midpoint is always 250 z units back. 
-	cube.position.set(0,10,-600);scene.add(cube);
+	cube.position.set(0,2.5,-600);scene.add(cube);
 
 	cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
 
 	//to move left on grid + 200
-    cube.position.set(200,10,-600);scene.add(cube);
+    cube.position.set(200,2.5,-600);scene.add(cube);
+
+//	cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
+
+//	cube.position.set(400,3.5,-600);scene.add(cube);
 
 	cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
-
-	cube.position.set(400,10,-600);scene.add(cube);
-
-	cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
-
+ 
 	//to move right on grid - 200
-	cube.position.set(-200,10,-600);scene.add(cube);
+	cube.position.set(-200,2.5,-600);scene.add(cube);
 
 	cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
 
-	cube.position.set(-400,10,-600);scene.add(cube);
+	cube.position.set(-400,2.5,-600);scene.add(cube);
 
 	cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
-
 
 	//to move up one row, up 650. 
-	cube.position.set(0,10,50);	scene.add(cube);
+	cube.position.set(0,2.5,50);	scene.add(cube);
 
 		cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
 
-		cube.position.set(-200,10,50);	scene.add(cube);
+		cube.position.set(-200,2.5,50);	scene.add(cube);
 		
 			cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
 
-				cube.position.set(-400,10,50);	scene.add(cube);
+				cube.position.set(-400,2.5,50);	scene.add(cube);
 
 					cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
 
-				cube.position.set(200,10,50);	scene.add(cube);
+				cube.position.set(200,2.5,50);	scene.add(cube);
 
 			cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
 
-		cube.position.set(400,10,50);	scene.add(cube);
+		cube.position.set(400,2.5,50);	scene.add(cube);
 
 		cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
 
-			cube.position.set(600,10,50);	scene.add(cube);
+			cube.position.set(600,2.5,50);	scene.add(cube);
 
-		cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
+		
+		cube = new THREE.Mesh( cubeGeometry, cubeMaterial ); 
 
-			cube.position.set(-600,10,50);	scene.add(cube);
+			cube.position.set(-600,2.5,50);	scene.add(cube);
 
+			//Deck
+		
+	//cards with 
+	var materialArray = [];
+ 
+		materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern_deck.jpg' ) }));
+		materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern_deck.jpg' ) }));
+	materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'images/back.png' ) }));
+		materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern_deck.jpg' ) }));
+		materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern_deck.jpg' ) }));
+		materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern_deck.jpg' ) }));
+	//	new THREE.MeshBasicMaterial({ color: 0x000088 });
+	var cubeMaterial = new THREE.MeshFaceMaterial(materialArray);
+	var cubeGeometry = new THREE.CubeGeometry( 150, 50, 480 );
 
+	cube = new THREE.Mesh( cubeGeometry, cubeMaterial ); 
 
-
-
-
-
-
-
-
-	scene.add(cube);
-	
+		   cube.position.set(-600,25,-600);
+		    scene.add(cube);
 
 	
 }
@@ -288,6 +311,29 @@ function update()
 	stats.update();
 }
 
+function test () {
+		var cubeGeometry = new THREE.CubeGeometry( 150, 5, 480 );
+	var materialArray = [];
+	materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern.jpg' ) }));
+	materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern.jpg' ) }));
+	materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'images/back.png' ) }));
+	materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern.jpg' ) }));
+	materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern.jpg' ) }));
+	materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern.jpg' ) }));
+	var DiceBlueMaterial = new THREE.MeshFaceMaterial(materialArray);
+	//	new THREE.MeshBasicMaterial({ color: 0x000088 });
+
+	var cubeMaterial = new THREE.MeshFaceMaterial(materialArray);
+
+	cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
+
+	cube.position.set(400,2.5,-600);scene.add(cube);
+
+
+		cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
+
+	cube.position.set(-600,30,-600);scene.add(cube);
+}
 function render() 
 {	
 	if ( video.readyState === video.HAVE_ENOUGH_DATA ) 
@@ -299,6 +345,18 @@ function render()
 
 	renderer.render( scene, camera );
 }
+
+</script>
+<script>
+
+var ws = new WebSocket("ws://pythonscript.denerosarmy.com:8000/ws");
+ws.onopen = function() {
+	ws.send("Hello, world");
+};
+ws.onmessage = function (evt) {
+	test();
+};
+
 
 </script>
 

@@ -3,6 +3,7 @@ import tornado.web
 import tornado.websocket 
 import tornado.httpserver
 import yugioh
+import json 
 D = True
 op = None
 game = None
@@ -22,15 +23,23 @@ class WSHandler(tornado.websocket.WebSocketHandler):
     
 class RfidHandler(tornado.web.RequestHandler):
   def post(self):
-      global game 
       print map(str,self.get_arguments("rfid"))
       if op:
 	print op 
 	print "DOPP"
-      	op.write_message("poop")
+
+class CVHandler(tornado.web.RequestHandler):
+  def post(self):
+      position = self.get_argument("position")
+      old = self.get_argument("old")
+      new = self.get_argument("new")
+      game.place(position,new) 
+      op.write_message(json.dumps(game.field))
+      print "Detected class change at {} from '{}' to {}'".format(position, old, new)
 
 application = tornado.web.Application([
     (r'/ws', WSHandler),
+    (r'/cv', CVHandler),
     (r'/', RfidHandler),
 ])
 
