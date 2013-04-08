@@ -30,7 +30,6 @@
 </head>
 <body>
 <p id="errorMessage"></p>
-
 <video id="monitor" autoplay width="512" height="512" style="visibility: hidden; float:left;"></video>
 <canvas id="videoImage" width="512" height="512" style="visibility: hidden; float:left;"></canvas>
 <div id="mySubscriberDiv">
@@ -42,6 +41,8 @@
             // Initialize API key, session, and token...
             // Think of a session as a room, and a token as the key to get in to the room
             // Sessions and tokens are generated on your server and passed down to the client
+//token expired.
+/*
             var apiKey = "25473722";
             var sessionId = "1_MX4yNTQ3MzcyMn4xMjcuMC4wLjF-U3VuIEFwciAwNyAwNjowNjoyOSBQRFQgMjAxM34wLjMyODQ1OTkyfg";
             var token = "T1==cGFydG5lcl9pZD0yNTQ3MzcyMiZzZGtfdmVyc2lvbj10YnJ1YnktdGJyYi12MC45MS4yMDExLTAyLTE3JnNpZz1iNjhjMWVkMzk2Y2FmNmYxZTc1YTRjMmM0Y2IwMDYzZGI3ZTExZTIzOnJvbGU9cHVibGlzaGVyJnNlc3Npb25faWQ9JmNyZWF0ZV90aW1lPTEzNjUzMTg1ODYmbm9uY2U9MC4zNTg3MTkyMTgxNjg2Njk4JmV4cGlyZV90aW1lPTEzNjU0MDQ5OTcmY29ubmVjdGlvbl9kYXRhPQ=="; 
@@ -70,6 +71,7 @@
             function streamCreatedHandler(event) {
                 subscribeToStreams(event.streams);
             }
+*/
         </script>
             <body>
 
@@ -127,9 +129,9 @@ play_card(1, 'darkmagician', 'up');
 play_card(0, 'slifer', 'up');
 play_card(7, 'darkhole', 'down');
 </script>
-				<embed src="duel.mp3" loop="false" autoplay="true" width="145" height="60"></embed>
-				<embed src="battle.mp3" loop="true" autoplay="true" width="145" height="60"></embed>
-				<audio id="lightning" src="lightning.mp3" preload="auto"></audio>
+
+<embed src="duel.mp3" loop="false" autoplay="true" width="145" height="60"></embed>
+<audio id="lightning" src="lightning.mp3" preload="auto"></audio>
 
 
 </body>
