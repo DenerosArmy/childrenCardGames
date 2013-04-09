@@ -1,0 +1,129 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+	<title>Yugioh cards</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<style>
+		body 
+		{
+			font-family: Monospace;
+			font-weight: bold;
+			background-color: #ccccff;
+			margin: 5px;
+			overflow: hidden;
+		}
+	</style>
+	<script src='https://swww.tokbox.com/webrtc/v2.0/js/TB.min.js'></script>
+                <script src="js/Three.js"></script>
+                <script src="js/Detector.js"></script>
+                <script src="js/Stats.js"></script>
+                <script src="js/ColladaLoader.js"></script>
+                <script src="js/TrackballControls.js"></script>
+                <script src="js/THREEx.KeyboardState.js"></script>
+                <script src="js/THREEx.FullScreen.js"></script>
+                <script src="js/THREEx.WindowResize.js"></script>
+
+
+</head>
+<body>
+
+<p id="errorMessage"></p>
+
+<video id="monitor" autoplay width="512" height="512" style="visibility: hidden; float:left;"></video>
+<canvas id="videoImage" width="512" height="512" style="visibility: hidden; float:left;"></canvas>
+<div id="mySubscriberDiv">
+	<!-- TokBox embeds here. --> 
+
+</div>
+
+         <script type="text/javascript">
+            // Initialize API key, session, and token...
+            // Think of a session as a room, and a token as the key to get in to the room
+            // Sessions and tokens are generated on your server and passed down to the client
+            var apiKey = "25473722";
+            var sessionId = "1_MX4yNTQ3MzcyMn4xMjcuMC4wLjF-U3VuIEFwciAwNyAwNjowNjoyOSBQRFQgMjAxM34wLjMyODQ1OTkyfg";
+            var token = "T1==cGFydG5lcl9pZD0yNTQ3MzcyMiZzZGtfdmVyc2lvbj10YnJ1YnktdGJyYi12MC45MS4yMDExLTAyLTE3JnNpZz1iNjhjMWVkMzk2Y2FmNmYxZTc1YTRjMmM0Y2IwMDYzZGI3ZTExZTIzOnJvbGU9cHVibGlzaGVyJnNlc3Npb25faWQ9JmNyZWF0ZV90aW1lPTEzNjUzMTg1ODYmbm9uY2U9MC4zNTg3MTkyMTgxNjg2Njk4JmV4cGlyZV90aW1lPTEzNjU0MDQ5OTcmY29ubmVjdGlvbl9kYXRhPQ=="; 
+            // Initialize session, set up event listeners, and connect
+            var session = TB.initSession(sessionId);
+            session.addEventListener('sessionConnected', sessionConnectedHandler);
+            session.addEventListener("streamCreated", streamCreatedHandler);
+            
+            session.connect(apiKey, token);
+//If you wanted to publish in a custom div, api, 'yourdiv'
+            function sessionConnectedHandler (event) {
+                subscribeToStreams(event.streams)
+								setTimeout( function () {
+										document.getElementsByTagName("video")[0].src = document.getElementsByTagName("video")[1].src;
+								}, 2000);
+            }
+
+            function subscribeToStreams(streams) {
+                for (i = 0; i < streams.length; i++) {
+                    var stream = streams[i];
+											session.subscribe(stream,'mySubscriberDiv');
+
+											console.log("HNNNNGH");
+                }
+            }
+            function streamCreatedHandler(event) {
+                subscribeToStreams(event.streams);
+            }
+        </script>
+            <body>
+
+                <p id="errorMessage"></p>
+
+                <video id="monitor" autoplay width="512" height="512" style="visibility: hidden; float:left;"></video>
+                <canvas id="videoImage" width="512" height="512" style="visibility: hidden; float:left;"></canvas>
+
+                <script>
+                    //navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.getUserMedia;
+                    //window.URL = window.URL || window.webkitURL;
+
+                    var camvideo = document.getElementById('monitor');
+
+                    //if (!navigator.getUserMedia) 
+                    //{
+                    //    document.getElementById('errorMessage').innerHTML = 
+                    //        'Sorry. <code>navigator.getUserMedia()</code> is not available.';
+                    //    return;
+                    //}
+                    //navigator.getUserMedia({video: true}, gotStream, noStream);
+
+                    //function gotStream(stream) 
+                    //{
+                    //    if (window.URL) 
+                    //    {   camvideo.src = window.URL.createObjectURL(stream);   } 
+                    //    else // Opera
+                    //    {   camvideo.src = stream;   }
+
+                    //    camvideo.onerror = function(e) 
+                    //    {   stream.stop();   };
+
+                    //    stream.onended = noStream;
+                    //}
+
+                    //function noStream(e) 
+                    //{
+                    //    var msg = 'No camera available.';
+                    //    if (e.code == 1) 
+                    //    {   msg = 'User denied access to use camera.';   }
+                    //    document.getElementById('errorMessage').textContent = msg;
+                    //}
+                </script>
+
+        <script src="/js/loaders/MTLLoader.js"></script>
+        <script src="/js/loaders/OBJMTLLoader.js"></script>
+				<script src="yugiohBoard.js"></script>
+
+
+				<embed src="duel.mp3" loop="false" autoplay="true" width="145" height="60"></embed>
+				<embed src="battle.mp3" loop="true" autoplay="true" width="145" height="60"></embed>
+				<audio id="lightning" src="lightning.mp3" preload="auto"></audio>
+
+
+</body>
+</html>
