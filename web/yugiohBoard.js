@@ -7,13 +7,13 @@ var cards  = []
 var board = {}
 var field = [] 
 var monsters = {} 
-var monster_spawn_states = {"obelisk":[[1.57,0,0],[0,200,0],[200,200,200]],"wingeddragon":[[1.57,0,0],[0,250,100],[13,13,13]] }
+var monster_spawn_states = {"obelisk":[[1.57,0,0],[0,200,0],[200,200,200]],"wingeddragon":[[1.57,0,0],[0,200,100],[13,13,13]] }
+
 for (i=0; i<14; i++) { 
     hz = 600 - 200*(i%7)
     vt = 50 - 650*Math.floor(i/7)  
     positions[i] = [hz,2.5,vt]
     board[i] = [null,null]
-
 }
 // custom global variables
 var video, videoImage, videoImageContext, videoTexture;
@@ -32,6 +32,12 @@ faceDownArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadText
 faceDownArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'custom/pattern.jpg' ) }));
 
 var faceDowncardMaterial = new THREE.MeshFaceMaterial(faceDownArray);
+
+
+
+function attack() {
+        window.location = "kaiba.html";
+}
 
 // FUNCTIONS        
 function init() 
@@ -199,9 +205,11 @@ function animate()
 function update()
 {       
     if ( keyboard.pressed("p") ) // pause
-        video.pause();
+        //video.pause();
+	console.log('p pressed');
     if ( keyboard.pressed("r") ) // resume
-        video.play();
+        //video.play();
+	attack();
     controls.update();
     stats.update();
 }
@@ -275,7 +283,7 @@ function render_monster(position) {
     loader.addEventListener( 'load', function ( event ) {
 					var object = event.content;
                     object.scale.set(200,200,200) 
-					object.position.set(positions[position][0],positions[position][1],positions[position][2]);
+	object.position.set(positions[position][0],positions[position][1]+75,positions[position][2]);
 					scene.add( object );
                     monsters[name] = object
                     rotation = monster_spawn_states[name][0]
@@ -290,6 +298,7 @@ function render_monster(position) {
 
 
 }
+/*
 var ws = new WebSocket("ws://pythonscript.denerosarmy.com:8000/ws");
 ws.onopen = function() {
     ws.send("Hello, world");
@@ -311,8 +320,5 @@ ws.onmessage = function (evt) {
     }
 
 };
-
-function attack() {
-	window.location = "http://localhost:8000/web/kaiba.html";
-}
+*/
 
