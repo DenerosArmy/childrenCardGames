@@ -286,7 +286,7 @@ if (!('webkitSpeechRecognition' in window)) {
     }
 		if (final_transcript.search("attack") != -1) {
 			console.log("attacked life points directly");
-			window.location = "http://pythonscript.richiezeng.com/attack";
+			window.location = "http://pythonscript.richiezeng.com:8000/attack";
 			final_transcript = '';
 		}
     final_transcript = capitalize(final_transcript);
