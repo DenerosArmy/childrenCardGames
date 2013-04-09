@@ -1,0 +1,43 @@
+<html> 
+    <head>
+        <script src='https://swww.tokbox.com/webrtc/v2.0/js/TB.min.js'></script>
+    </head>
+
+    <body>
+
+        <div id="myPublisherDiv"></div>
+        <script type="text/javascript">
+            // Initialize API key, session, and token...
+            // Think of a session as a room, and a token as the key to get in to the room
+            // Sessions and tokens are generated on your server and passed down to the client
+            var apiKey = "25473722";
+            var sessionId = "2_MX4xMTQ5NjUxMn4xMjcuMC4wLjF-TW9uIEFwciAwOCAxMTo0NTozNSBQRFQgMjAxM34wLjYzMTcxNDA1fg";
+            var token = "T1==cGFydG5lcl9pZD0xMTQ5NjUxMiZzZGtfdmVyc2lvbj10YnJ1YnktdGJyYi12MC45MS4yMDExLTAyLTE3JnNpZz04MWVkNzJlOTJlNGI5YWM0NWFlN2E2NWQ4MjEzZTJkYzRiY2RhZjMxOnJvbGU9cHVibGlzaGVyJnNlc3Npb25faWQ9Ml9NWDR4TVRRNU5qVXhNbjR4TWpjdU1DNHdMakYtVFc5dUlFRndjaUF3T0NBeE1UbzBOVG96TlNCUVJGUWdNakF4TTM0d0xqWXpNVGN4TkRBMWZnJmNyZWF0ZV90aW1lPTEzNjU0NDY5MTAmbm9uY2U9MC41MzcxOTUzMTQ2ODcwODg2JmV4cGlyZV90aW1lPTEzNjU1MzMzMTAmY29ubmVjdGlvbl9kYXRhPQ=="; 
+            // Initialize session, set up event listeners, and connect
+            var session = TB.initSession(sessionId);
+            session.addEventListener('sessionConnected', sessionConnectedHandler);
+            session.addEventListener("streamCreated", streamCreatedHandler);
+            
+            session.connect(apiKey, token);
+//If you wanted to publish in a custom div, api, 'yourdiv'
+            var published =  TB.initPublisher(apiKey)
+            function sessionConnectedHandler (event) {
+                session.publish(published);
+                subscribeToStreams(event.streams)
+            }
+
+            function subscribeToStreams(streams) {
+                for (i = 0; i < streams.length; i++) {
+                    var stream = streams[i];
+                    if (stream.connection.connectionId != session.connection.connectionId) {
+                        session.subscribe(stream);
+                    }
+                }
+            }
+            function streamCreatedHandler(event) {
+                subscribeToStreams(event.streams);
+            }
+            
+            </script>
+        </body>
+    </html>
